@@ -1,0 +1,43 @@
+## Coursera R Programming Course July, 2014
+## This file contains two functions that calculate the inverse of a square matrix.
+## Once the calculation is performed the first time by cacheSolve, the result is cached, so it needn't
+## be repeated, if this function is called again on the same matrix.
+
+## Function makeCacheMatrix(x):   x must be matrix
+## The function creates a new cacheable copy of x
+
+makeCacheMatrix <- function(x = matrix()) 
+{
+	    inverse <- NULL
+        set <- function(y) 
+        {
+                x <<- y
+                inverse <<- NULL
+        }
+        get <- function() x
+        setinverse <- function(solve) inverse <<- solve
+        getinverse <- function() inverse
+        list(set = set, get = get,
+             setinverse = setinverse,
+             getinverse = getinverse)
+}
+
+
+## Function cacheSolve(x):   x is a cacheable matrix
+##     created by makeCacheMatrix.  The function returns the
+##     inverse of x and a message if the result was previously cached
+
+
+cacheSolve <- function(x, ...) 
+{
+       inverse <- x$getinverse()
+        if(!is.null(inverse))
+        {
+                message("getting cached data")
+                return(inverse)
+        }
+        data <- x$get()
+        inverse <- solve(data, ...)
+        x$setinverse(inverse)
+        inverse
+}
